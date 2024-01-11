@@ -6,8 +6,14 @@ const companyJobSchema = new Schema({
   website: { type: String },
   phone: { type: String },
   email: { type: String },
-  positionPostUrl: { type: String },
-  location: { type: String }
+  location: { type: String },
+  jobs: [{
+    title: { type: String },
+    description: { type: String },
+    requirements: { type: String },
+    positionPostUrl: { type: String }
+  }],
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = model("CompanyJob", companyJobSchema);
