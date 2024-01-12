@@ -16,24 +16,12 @@ router.post("/", (req, res, next) => {
     });
 });
 
+//when creating the company job on the frontend take the industry to lower case  
+
 //Retrieve all CompanyJobs
 router.get("/", (req, res, next) => {
   console.log("Hitting get route");
   CompanyJob.find()
-    .then((foundCompanyJobs) => {
-      console.log(foundCompanyJobs);
-      res.status(201).send(foundCompanyJobs);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
-    });
-});
-
-//Retrieve a specific CompanyJob by ID
-router.get("/:id", (req, res, next) => {
-  console.log("Hitting get route");
-  CompanyJob.findById(req.params.id)
     .then((foundCompanyJobs) => {
       console.log(foundCompanyJobs);
       res.status(201).send(foundCompanyJobs);
@@ -76,9 +64,15 @@ router.get("/search", (req, res, next) => {
 
   // Build a dynamic query based on provided criteria
   const query = {};
-  if (industry) query.industry = industry;
-  if (location) query.location = location;
-  if (companyName) query.companyName = companyName;
+  if (industry) {  
+    query.industry = { '$regex': industry, $options: 'i' };
+  }
+  if (location) query.location = { '$regex': location, $options: 'i' };
+  if (companyName) query.companyName = { '$regex': companyName, $options: 'i' };
+
+  // { username: { '$regex': username, $options: 'i' } }
+
+  console.log("This is the query ===>", query)
 
   CompanyJob.find(query)
     .then((filteredCompanyJobs) => {
@@ -136,5 +130,21 @@ router.get("/sort/:sortBy", (req, res, next) => {
             res.status(500).send(err);
         });
 });
+
+//Retrieve a specific CompanyJob by ID
+
+router.get("/details/:id", (req, res, next) => {
+    console.log("Hitting get route");
+    CompanyJob.findById(req.params.id)
+      .then((foundCompanyJobs) => {
+        console.log(foundCompanyJobs);
+        res.status(201).send(foundCompanyJobs);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+  });
+
 
 module.exports = router;
