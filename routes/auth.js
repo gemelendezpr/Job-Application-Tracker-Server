@@ -86,9 +86,9 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
-// POST  /auth/login
+// POST  /auth/signgin
 // ...
-router.post("/login", (req, res, next) => {
+router.post("/signgin", (req, res, next) => {
   const { email, password } = req.body;
 
   // Check if email or password are provided as empty string
