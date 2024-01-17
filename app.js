@@ -9,8 +9,8 @@ var mongoose = require('mongoose')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth')
-var appliedJobRouter = require('./routes/appliedJob')
-var companyJobRouter = require('./routes/companyJob')
+var interviewRouter = require('./routes/interview')
+var companyRouter = require('./routes/company')
 
 var app = express();
 
@@ -36,8 +36,8 @@ app.use(
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter)
-app.use('/appliedJob', appliedJobRouter)
-app.use('/companyJob', companyJobRouter)
+app.use('/interview', interviewRouter)
+app.use('/company', companyRouter)
 
 mongoose
   .connect(process.env.MONGODB_URI)

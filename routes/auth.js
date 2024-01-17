@@ -35,7 +35,7 @@ router.post("/signup", (req, res, next) => {
   //   res.status(400).json({ message: 'Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.' });
   //   return;
   // }
-
+console.log("Created User ===>", email, password, username)
   // Check the users collection if a user with the same email already exists
   User.findOne({ email })
     .then((foundUser) => {
@@ -49,6 +49,7 @@ router.post("/signup", (req, res, next) => {
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
 
+      console.log("Hashed Password ===>", hashedPassword)
       // Create a new user in the database
       // We return a pending promise, which allows us to chain another `then`
       User.create({ email, password: hashedPassword, username })
@@ -64,6 +65,8 @@ router.post("/signup", (req, res, next) => {
             algorithm: "HS256",
             expiresIn: "6h",
           });
+
+          console.log("line 69 authToken", authToken )
 
           // Send the token as the response
           res.status(200).json({ authToken });

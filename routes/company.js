@@ -1,30 +1,30 @@
 var express = require("express");
 var router = express.Router();
 
-const CompanyJob = require("../models/CompanyJob");
+const Company = require("../models/Company");
 
 // Create a new CompanyJob
 router.post("/", (req, res, next) => {
-  CompanyJob.create(req.body)
-    .then((createdCompanyJob) => {
-      console.log("CompanyJob created ->", createdCompanyJob);
-      res.status(201).send(createdCompanyJob);
+  Company.create(req.body)
+    .then((createdCompany) => {
+      console.log("Company created ->", createdCompany);
+      res.status(201).send(createdCompany);
     })
     .catch((error) => {
-      console.error("Error while creating the CompanyJob ->", error);
-      res.status(500).send({ error: "Failed to create the CompanyJob" });
+      console.error("Error while creating the Company ->", error);
+      res.status(500).send({ error: "Failed to create the Company" });
     });
 });
 
 //when creating the company job on the frontend take the industry to lower case  
 
-//Retrieve all CompanyJobs
+//Retrieve all Companys
 router.get("/", (req, res, next) => {
   console.log("Hitting get route");
-  CompanyJob.find()
-    .then((foundCompanyJobs) => {
-      console.log(foundCompanyJobs);
-      res.status(201).send(foundCompanyJobs);
+  Company.find()
+    .then((foundCompanys) => {
+      console.log(foundCompanys);
+      res.status(201).send(foundCompanys);
     })
     .catch((err) => {
       console.log(err);
@@ -32,12 +32,12 @@ router.get("/", (req, res, next) => {
     });
 });
 
-// Update a CompanyJob by ID
+// Update a Company by ID
 router.post("/update/:id", (req, res, next) => {
-  CompanyJob.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then((updatedCompanyJob) => {
-      console.log(updatedCompanyJob);
-      res.status(200).send(updatedCompanyJob);
+  Company.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((updatedCompany) => {
+      console.log(updatedCompany);
+      res.status(200).send(updatedCompany);
     })
     .catch((err) => {
       console.log(err);
@@ -45,12 +45,12 @@ router.post("/update/:id", (req, res, next) => {
     });
 });
 
-// Delete a CompanyJob by ID
+// Delete a Company by ID
 router.get("/delete/:id", (req, res, next) => {
-  CompanyJob.findByIdAndDelete(req.params.id)
-    .then((updatedCompanyJob) => {
-      console.log(updatedCompanyJob);
-      res.status(200).send(updatedCompanyJob);
+  Company.findByIdAndDelete(req.params.id)
+    .then((updatedCompany) => {
+      console.log(updatedCompany);
+      res.status(200).send(updatedCompany);
     })
     .catch((err) => {
       console.log(err);
@@ -74,10 +74,10 @@ router.get("/search", (req, res, next) => {
 
   console.log("This is the query ===>", query)
 
-  CompanyJob.find(query)
-    .then((filteredCompanyJobs) => {
-      console.log(filteredCompanyJobs);
-      res.status(200).send(filteredCompanyJobs);
+  Company.find(query)
+    .then((filteredCompanys) => {
+      console.log(filteredCompanys);
+      res.status(200).send(filteredCompanys);
     })
     .catch((err) => {
       console.log(err);
@@ -90,12 +90,12 @@ router.get("/page/:pageNumber", (req, res, next) => {
   const pageSize = 10; // Adjust as needed
   const pageNumber = req.params.pageNumber || 1;
 
-  CompanyJob.find()
+  Company.find()
     .skip((pageNumber - 1) * pageSize)
     .limit(pageSize)
-    .then((companyJobs) => {
-      console.log(companyJobs);
-      res.status(200).send(companyJobs);
+    .then((companys) => {
+      console.log(companys);
+      res.status(200).send(companys);
     })
     .catch((err) => {
       console.log(err);
@@ -105,9 +105,9 @@ router.get("/page/:pageNumber", (req, res, next) => {
 
 // Count
 router.get("/count", (req, res, next) => {
-    CompanyJob.countDocuments()
+    Company.countDocuments()
     .then((count) => {
-        console.log('Total CompanyJobs:', count);
+        console.log('Total Companys:', count);
         res.status(200).send({ count });
     })
     .catch((err) => {
@@ -120,10 +120,10 @@ router.get("/count", (req, res, next) => {
 router.get("/sort/:sortBy", (req, res, next) => {
     const sortBy = req.params.sortBy || 'companyName'; // Default to sorting by companyName
 
-    CompanyJob.find().sort(sortBy)
-        .then((sortedCompanyJobs) => {
-            console.log(sortedCompanyJobs);
-            res.status(200).send(sortedCompanyJobs);
+    Company.find().sort(sortBy)
+        .then((sortedCompanys) => {
+            console.log(sortedCompanys);
+            res.status(200).send(sortedCompanys);
         })
         .catch((err) => {
             console.log(err);
@@ -131,14 +131,14 @@ router.get("/sort/:sortBy", (req, res, next) => {
         });
 });
 
-//Retrieve a specific CompanyJob by ID
+//Retrieve a specific Company by ID
 
 router.get("/details/:id", (req, res, next) => {
     console.log("Hitting get route");
-    CompanyJob.findById(req.params.id)
-      .then((foundCompanyJobs) => {
-        console.log(foundCompanyJobs);
-        res.status(201).send(foundCompanyJobs);
+    Company.findById(req.params.id)
+      .then((foundCompanys) => {
+        console.log(foundCompanys);
+        res.status(201).send(foundCompanys);
       })
       .catch((err) => {
         console.log(err);
