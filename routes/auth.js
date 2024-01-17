@@ -91,7 +91,7 @@ console.log("Created User ===>", email, password, username)
 
 // POST  /auth/signgin
 // ...
-router.post("/signgin", (req, res, next) => {
+router.post("/signin", (req, res, next) => {
   const { email, password } = req.body;
 
   // Check if email or password are provided as empty string
