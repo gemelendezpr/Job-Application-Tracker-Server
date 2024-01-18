@@ -24,6 +24,7 @@ router.post("/", (req, res, next) => {
 });
 
 router.get("/", (req, res, next) => {
+  const {} = req.query
     console.log("Hitting get route")
   Interview.find()
     .populate('user company')
