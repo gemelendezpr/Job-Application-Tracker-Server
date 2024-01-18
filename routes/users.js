@@ -47,6 +47,7 @@ router.post('/update/:id', (req, res, next) => {
 
   console.log("Received update request for user ID:", userId);
   console.log("Updated user data:", updatedUserData);
+  
 
   User.findByIdAndUpdate(userId, updatedUserData, { new: true })
     .then((updatedUser) => {
