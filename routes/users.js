@@ -11,6 +11,7 @@ router.get('/profile', isAuthenticated, (req, res, next) => {
         return res.status(404).json({ error: 'User not found' });
       }
       res.status(200).json({
+        _id: foundUser._id,
         username: foundUser.username,
         email: foundUser.email,
         photo: foundUser.photo,
@@ -43,6 +44,9 @@ router.get('/:id', function(req, res, next) {
 router.post('/update/:id', (req, res, next) => {
   const userId = req.params.id;
   const updatedUserData = req.body;
+
+  console.log("Received update request for user ID:", userId);
+  console.log("Updated user data:", updatedUserData);
 
   User.findByIdAndUpdate(userId, updatedUserData, { new: true })
     .then((updatedUser) => {
