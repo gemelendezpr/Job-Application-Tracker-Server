@@ -3,24 +3,13 @@ const User = require("../models/User")
 const isAuthenticated = require('../middleware/isAuthenticated');
 var router = express.Router();
 
-/* GET users ID */
-router.get('/:id', function(req, res, next) {
-  console.log("Hitting get route");
-  User.findById(req.params.id)
-  .then((foundUsers) => {
-    console.log(foundUsers);
-    res.status(201).send(foundUsers);
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(500).send(err);
-  });
-});
-
 // GET user profile
 router.get('/profile', isAuthenticated, (req, res, next) => {
-  User.findById(req.user.id)
+  User.findById(req.user._id)
     .then((foundUser) => {
+      if (!foundUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
       res.status(200).json({
         username: foundUser.username,
         email: foundUser.email,
@@ -30,7 +19,23 @@ router.get('/profile', isAuthenticated, (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
+
+/* GET users ID */
+router.get('/:id', function(req, res, next) {
+  console.log("Hitting get route");
+  User.findById(req.params.id)
+    .then((foundUser) => {
+      if (!foundUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.status(200).json(foundUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: 'Internal Server Error' });
     });
 });
 
